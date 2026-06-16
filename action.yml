@@ -17,7 +17,7 @@ inputs:
     required: false
     default: "https://clearpath-sandy.vercel.app"
   version:
-    description: "Version of @qashift/clearpath to use."
+    description: "Version of @qashifthq/clearpath to use."
     required: false
     default: "latest"
 
@@ -40,4 +40,4 @@ runs:
         CLEARPATH_API_URL: ${{ inputs.api-url }}
         CLEARPATH_URLS: ${{ inputs.urls }}
         CLEARPATH_PR: ${{ github.event.pull_request.number }}
-      run: npx --yes @qashift/clearpath@${{ inputs.version }} scan
+      run: npx --yes @qashifthq/clearpath@${{ inputs.version }} scan
