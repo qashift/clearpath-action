@@ -1,0 +1,43 @@
+name: "Clearpath Accessibility"
+description: "Run accessibility checks in CI and post a per-deploy regression diff to your pull request."
+author: "QAShift"
+branding:
+  icon: "check-circle"
+  color: "green"
+
+inputs:
+  urls:
+    description: "Comma-separated URLs to scan (e.g. your preview deployment)."
+    required: true
+  token:
+    description: "Clearpath project ingest token (store as a secret)."
+    required: true
+  api-url:
+    description: "Clearpath API base URL."
+    required: false
+    default: "https://clearpath-sandy.vercel.app"
+  version:
+    description: "Version of @qashift/clearpath to use."
+    required: false
+    default: "latest"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Node
+      uses: actions/setup-node@v4
+      with:
+        node-version: "20"
+
+    - name: Install Chromium
+      shell: bash
+      run: npx --yes playwright@1.49.1 install --with-deps chromium
+
+    - name: Run Clearpath
+      shell: bash
+      env:
+        CLEARPATH_INGEST_TOKEN: ${{ inputs.token }}
+        CLEARPATH_API_URL: ${{ inputs.api-url }}
+        CLEARPATH_URLS: ${{ inputs.urls }}
+        CLEARPATH_PR: ${{ github.event.pull_request.number }}
+      run: npx --yes @qashift/clearpath@${{ inputs.version }} scan
