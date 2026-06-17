@@ -7,8 +7,9 @@ branding:
 
 inputs:
   urls:
-    description: "Comma-separated URLs to scan (e.g. your preview deployment)."
-    required: true
+    description: "Comma-separated URLs to scan. Optional — if omitted, the pages configured for this project in the Clearpath dashboard are used."
+    required: false
+    default: ""
   token:
     description: "Clearpath project ingest token (store as a secret)."
     required: true
