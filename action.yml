@@ -40,4 +40,7 @@ runs:
         CLEARPATH_API_URL: ${{ inputs.api-url }}
         CLEARPATH_URLS: ${{ inputs.urls }}
         CLEARPATH_PR: ${{ github.event.pull_request.number }}
+        # On PRs, GITHUB_SHA is the merge commit; use the PR head so the check
+        # lands on the pull request.
+        CLEARPATH_COMMIT: ${{ github.event.pull_request.head.sha || github.sha }}
       run: npx --yes @qashifthq/clearpath@${{ inputs.version }} scan
